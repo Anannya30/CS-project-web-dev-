@@ -181,6 +181,12 @@
           <button type="submit" class="hero-btn red-btn">SUBMIT</button>
         </form>
       </div>
+
+      <div id="sortedData">
+        <h3>THESE ARE SOME OF OUR HAPPY CUSTOMERS</h3>
+        <ul id="dataList"></ul>
+      </div>
+      
       
     
      <!--footer-->
@@ -268,6 +274,33 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indobm5ldGxjanZ2bmxqaWltbnJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NjYzNDAsImV4cCI6MjA1OTU0MjM0MH0.GbrY7leW_XSE-mFh49_R2YV3CuDPiMdMD6gBbJReIFA';
     const client = supabase.createClient(supabaseUrl, supabaseKey);
 
+    async function fetchSortedData() {
+  const { data, error } = await client
+    .from('formdata')
+    .select('*')
+    .order('name', { ascending: true })
+    .limit(5);
+    
+  if (error) {
+    console.error('Fetch error:', error);
+    return;
+  }
+  console.log("Fetched data:", data);
+
+  const list = document.getElementById('dataList');
+  if (!list) {
+        console.error("dataList UL element not found!");
+        return;
+      }
+  list.innerHTML = ''; // Clear previous entries
+
+  data.forEach(entry => {
+    const li = document.createElement('li');
+    li.textContent = entry.name; // ✅ Only show the name
+    list.appendChild(li);
+  });
+}
+fetchSortedData();
 
     document.querySelector('.comment-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -287,8 +320,10 @@
       } else {
         alert('Form submitted successfully!');
         e.target.reset();
+        fetchSortedData();
       }
     });
+    
   };
 </script>
 

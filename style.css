@@ -1014,6 +1014,19 @@ span {
   outline: none;
   border: 1px solid #ccc
 }
+#sortedData{
+  background-color: rgb(201, 235, 249);
+}
+
+#sortedData h3{
+  text-align: center;
+}
+#dataList{
+   text-align: center;
+   font-size: 20px;
+   font-weight: 500;
+   color: #0d4177;
+}
 /* .comment-form button{
   margin: 10px, 0;
 } */
